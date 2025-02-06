@@ -1,10 +1,19 @@
-from flask import Flask
+from flask import Flask, render_template,url_for
 
-thelab = Flask(__name__)
+thelabApp = Flask(__name__)
 
-@thelab.route('/')
+@thelabApp.route('/')
 def home():
-    return 'hello wold' 
+    return render_template('home.html') 
 
-if __name__ =='__main__':
-    thelab.run(port=3300,debug=True) 
+@thelabApp.route('/signin')
+def signin():
+    return render_template('signin.html')    
+
+@thelabApp.route('/signup')
+def signup():
+    return render_template('signup.html')    
+
+
+if  __name__ =='__main__':
+    thelabApp.run(port=3300,debug=True) 
