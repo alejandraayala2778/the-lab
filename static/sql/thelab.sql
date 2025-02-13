@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 10-02-2025 a las 19:57:18
+-- Tiempo de generación: 13-02-2025 a las 01:18:52
 -- Versión del servidor: 8.0.41
 -- Versión de PHP: 7.4.9
 
@@ -29,13 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `usuario` (
   `id` int NOT NULL,
-  `nomdre` varchar(50) COLLATE utf32_spanish_ci NOT NULL,
-  `correo` varchar(50) COLLATE utf32_spanish_ci NOT NULL,
-  `clave` varchar(150) COLLATE utf32_spanish_ci NOT NULL,
-  `telefono` varchar(15) COLLATE utf32_spanish_ci NOT NULL,
+  `nombre` varchar(50) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
+  `correo` varchar(200) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
+  `clave` varchar(200) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
+  `telefono` varchar(15) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL,
   `fechareg` datetime NOT NULL,
-  `perfil` char(1) COLLATE utf32_spanish_ci NOT NULL
+  `perfil` char(1) CHARACTER SET utf32 COLLATE utf32_spanish_ci NOT NULL DEFAULT 'C'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `nombre`, `correo`, `clave`, `telefono`, `fechareg`, `perfil`) VALUES
+(1, 'alejandra ayala vizcaino', 'alejandra.ayala2778@alumnos.udg.mx', 'scrypt:32768:8:1$rIZLJLzPmUdA9QYT$a76c3af2d74d7dd083552fb4d3a805b21ed3aad2a561cba19de9b65eaeb8eb9735d739f6e51f426d0eeadf9368e3ebd04718526277f1f1574d94a2a4d866b5c1', '3339036994', '2025-02-12 19:12:42', 'C');
 
 --
 -- Índices para tablas volcadas
@@ -56,7 +63,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
