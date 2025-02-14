@@ -1,6 +1,9 @@
 from flask import Flask, render_template,url_for,request,redirect,flash
 from flask_mysqldb import MySQL
 from config import config 
+from models.ModelUser import ModelUser
+from models.entities.User import User 
+from flask_login import LoginManager, login_user,logout_user,login_required
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 
@@ -11,9 +14,26 @@ db        = MySQL(thelabApp)
 def home():
     return render_template('home.html') 
 
-@thelabApp.route('/signin')
+@thelabApp.route('/signin',methods=['POST','GET'])
 def signin():
-    return render_template('signin.html')    
+    if request.method == 'POST':
+        usuario = User(0,None,request.form['nombre'],request.from['clave'],None,None,None)
+        usuarioAutenticado = ModelUser.signin(db,usuario)
+        if usuarioAutenticado is not None:
+            if usuarioAutenticado.clave:
+                login_user(usuarioAutenticado)
+                if usuarioAutenticado.perfil == 'A':
+                    return render_template('admin.html')
+                else:
+                    return render_template('user.html')
+            else:
+                flash('clave incorrecta')
+                return redirect(request.url)
+        else:
+            flash('usuario no existe')
+            return redirect(request.url)
+    else:
+        return render_template('signin.html')    
 
 @thelabApp.route('/signup',methods=['POST','GET'])
 def signup():
