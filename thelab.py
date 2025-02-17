@@ -9,6 +9,11 @@ from datetime import datetime
 
 thelabApp = Flask(__name__)
 db        = MySQL(thelabApp)
+sessionManager = LoginManager(thelabApp)
+
+@sessionManager.user_loader
+def load_user(id):
+    return ModelUser.get_by_id(db,id)
 
 @thelabApp.route('/')
 def home():
@@ -17,7 +22,7 @@ def home():
 @thelabApp.route('/signin',methods=['POST','GET'])
 def signin():
     if request.method == 'POST':
-        usuario = User(0,None,request.form['nombre'],request.from['clave'],None,None,None)
+        usuario = User(0,None,request.form['correo'],request.form['clave'],None,None,None)
         usuarioAutenticado = ModelUser.signin(db,usuario)
         if usuarioAutenticado is not None:
             if usuarioAutenticado.clave:
