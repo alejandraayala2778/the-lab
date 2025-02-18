@@ -56,8 +56,17 @@ def signup():
         return redirect(url_for('home'))
     else:
         return render_template('signup.html')    
+@thelabApp.route('/signout',methods=['POST','GET'])
+def signout():
+    logout_user()
+    return redirect(url_for('home'))
 
+@thelabApp.route('/sUsuario',methods=['POST','GET'])
+def sUsuario():
+    selUsuario = db.connection.cursor()
+    selUsuario.execute("SELECT * FROM usuario")
+    u = selUsuario.fetchall()
 
 if  __name__ =='__main__':
     thelabApp.config.from_object(config['development'])
-    thelabApp.run(port=3300) 
+    thelabApp.run(port=3300)  
