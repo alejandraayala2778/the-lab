@@ -61,11 +61,14 @@ def signout():
     logout_user()
     return redirect(url_for('home'))
 
-@thelabApp.route('/sUsuario',methods=['POST','GET'])
+
+@thelabApp.route('/sUsuario',methods=['GET'])
 def sUsuario():
-    selUsuario = db.connection.cursor()
+    selUsuario =db.connection.cursor()
     selUsuario.execute("SELECT * FROM usuario")
     u = selUsuario.fetchall()
+    selUsuario.close()
+    return render_template('users.html',usuarios = u)
 
 if  __name__ =='__main__':
     thelabApp.config.from_object(config['development'])
