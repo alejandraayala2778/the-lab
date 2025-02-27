@@ -83,6 +83,21 @@ def iUsuario():
     db.connection.commit()
     regUsuario.close()
     flash('Usuario registrado')
+    return redirect(url_for('sUsuario')) 
+
+@thelabApp.route('/uUsuario/<int:id>', methods=['POST','GET'])
+def uUsuario(id):
+    nombre = request.form['nombre']
+    coreo = request.form['correo']
+    clave = request.form['clave']
+    telefono = request.form['telefono']
+    perfil = request.form['perfil']
+    fechareg =datetime.now()
+    actUsuario = db.connection.execute()
+    actUsuario.execute("UPDATE usuario SET nombre = %s, correo = %s, clave%s, telfono = %s, perfil = %s WHERE id = %s,"(nombre,coreo,clave,telefono,perfil,fechareg,id))
+    db.connection.commit()
+    actUsuario.close()
+    flash('Usuario actualizado')
     return redirect(url_for('sUsuario'))
 
 if  __name__ =='__main__':
