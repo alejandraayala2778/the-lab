@@ -62,13 +62,28 @@ def signout():
     return redirect(url_for('home'))
 
 
-@thelabApp.route('/sUsuario',methods=['GET'])
+@thelabApp.route('/sUsuario',methods=['POST','GET'])
 def sUsuario():
     selUsuario =db.connection.cursor()
     selUsuario.execute("SELECT * FROM usuario")
     u = selUsuario.fetchall()
     selUsuario.close()
     return render_template('users.html',usuarios = u)
+
+@thelabApp.route('/iUsuario',methods=['POST','GET'])
+def iUsuario():
+    nombre =    request.form['nombre']
+    correo =    request.form['correo']
+    clave =    request.form['clave']
+    claveCifrada = generate_password_hash(clave)
+    telefono =    request.form['telefono']
+    fechareg = datetime.now()
+    regUsuario = db.connection.cursor()
+    regUsuario.execute("INSERT INTO usuario (nombre,correo,clave,telefono,fechareg) VALUES (%s, %s, %s, %s, %s)",(nombre,correo,claveCifrada,telefono,fechareg))
+    db.connection.commit()
+    regUsuario.close()
+    flash('Usuario registrado')
+    return redirect(url_for('sUsuario'))
 
 if  __name__ =='__main__':
     thelabApp.config.from_object(config['development'])
