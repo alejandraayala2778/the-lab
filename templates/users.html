@@ -133,13 +133,16 @@
           <td>{{u[5]}}</td>
           <td>{{u[6]}}</td>
           <td>
-            <!-- Button trigger modal editar -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar{{u[0]}}">
-              <i class="fa-solid fa-user-pen"></i>
-              </button>
+            <!-- Button agregar-->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar{{u[0]}}">
+  <i class="fa-solid fa-user-plus"></i>
+</button>
             </td>
             <td>
-              boton eliminar
+              <!-- Button eliminar-->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar{{u[0]}}">
+                <i class="fa-solid fa-trash-can-arrow-up"></i>
+              </button>
           </td>
         </tr>
 <!-- Modal editar -->
@@ -151,6 +154,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="/uUsuario/{{u[0]}}" method="post" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+
       <div class="modal-body">
         
             <div class="form-floating mb-3">
@@ -171,14 +175,14 @@
             </div>
             <div class="checkbox mb-3">
               <label>
-              <select name="perfil" >
+              <select name="perfil">
                 <option value="{{u[6]}}">{{u[6]}}</option>
                 <option value="A">Administrador</option>
                 <option value="C">cliente</option>
               </select>
               </label>
             </div>
-          </div>
+          
           <div class="checkbox mb-3">
             <label>
               <input type="checkbox" value="remember-me"> Remember me
@@ -187,14 +191,40 @@
             
             <hr class="my-4">
             <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+      </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancelar</button>
+              <button type="submit" class="btn btn-primary">registrate</button>
+            
+            </div>
         
+      
+
+    </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="eliminar{{u[0]}}" data-bs-backdrop="eliminar" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/dUsuario/{{u[0]}}">
+      <div class="modal-body">
+        <p><i class="fa-solid fa-triangle-exclamation fa-beat fa-2xl" style="color: #f20707;"></i>
+        deseas eliminarel usuario : {{u[1]}}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancelar</button>
-        <button type="submit" class="btn btn-primary">registrate</button>
+        <button type="submit" class="btn btn-primary">eliminar</button>
       </div>
     </form>
-
     </div>
   </div>
 </div>
