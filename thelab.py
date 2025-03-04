@@ -93,7 +93,7 @@ def uUsuario(id):
     perfil = request.form['perfil']
     fechareg =datetime.now()
     actUsuario = db.connection.cursor()
-    actUsuario.execute("UPDATE usuario SET nombre = %s, correo = %s, telefono = %s, perfil = %s, fechareg %s WHERE id = %s", (nombre,correo,telefono,perfil,fechareg,id))
+    actUsuario.execute("UPDATE usuario SET nombre = %s, correo = %s, telefono = %s, perfil = %s, fechareg = %s WHERE id = %s", (nombre,correo,telefono,perfil,fechareg,id))
     db.connection.commit()
     actUsuario.close()
     flash('Usuario actualizado')
