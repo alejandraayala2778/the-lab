@@ -78,8 +78,9 @@ def iUsuario():
     claveCifrada = generate_password_hash(clave)
     telefono =    request.form['telefono']
     fechareg = datetime.now()
+    perfil = request.form['perfil']
     regUsuario = db.connection.cursor()
-    regUsuario.execute("INSERT INTO usuario (nombre,correo,clave,telefono,fechareg) VALUES (%s, %s, %s, %s, %s)",(nombre,correo,claveCifrada,telefono,fechareg))
+    regUsuario.execute("INSERT INTO usuario (nombre,correo,clave,telefono,fechareg,perfil) VALUES (%s, %s, %s, %s, %s,%s)",(nombre,correo,claveCifrada,telefono,fechareg,perfil))
     db.connection.commit()
     regUsuario.close()
     flash('Usuario registrado')
