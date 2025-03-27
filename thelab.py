@@ -30,7 +30,11 @@ def signin():
                 if usuarioAutenticado.perfil == 'A':
                     return render_template('admin.html')
                 else:
-                    return render_template('user.html')
+                    selProducto=db.connection.cursor()
+                    selProducto.execute("SELECT* FROM contenido LIMIT 20")
+                    p=selProducto.fetchall()
+                    selProducto.close()
+                    return render_template('user.html', productos = p)
             else:
                 flash('clave incorrecta')
                 return redirect(request.url)
@@ -109,6 +113,13 @@ def dUsuario(id):
     flash('Usuario eliminado')
     return redirect(url_for('sUsuario'))
 
+@thelabApp.route('/sProducto',methods =['POST','GET'])
+def sProducto():
+    selProducto=db.connection.cursor()
+    selProducto.execute("SELECT* FROM contenido LIMIT 20")
+    p=selProducto.fetchall()
+    selProducto.close()
+    return render_template('user.html', productos = p)
     
 
 
