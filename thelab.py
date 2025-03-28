@@ -31,10 +31,10 @@ def signin():
                     return render_template('admin.html')
                 else:
                     selProducto=db.connection.cursor()
-                    selProducto.execute("SELECT* FROM contenido LIMIT 20")
+                    selProducto.execute("SELECT * FROM producto LIMIT 20")
                     p=selProducto.fetchall()
                     selProducto.close()
-                    return render_template('user.html', productos = p)
+                    return render_template('user.html', producto = p)
             else:
                 flash('clave incorrecta')
                 return redirect(request.url)
@@ -116,10 +116,10 @@ def dUsuario(id):
 @thelabApp.route('/sProducto',methods =['POST','GET'])
 def sProducto():
     selProducto=db.connection.cursor()
-    selProducto.execute("SELECT* FROM contenido LIMIT 20")
+    selProducto.execute("SELECT * FROM producto LIMIT 20")
     p=selProducto.fetchall()
     selProducto.close()
-    return render_template('user.html', productos = p)
+    return render_template('user.html', producto = p)
     
 
 
