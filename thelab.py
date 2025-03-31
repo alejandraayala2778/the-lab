@@ -120,8 +120,14 @@ def sProducto():
     p=selProducto.fetchall()
     selProducto.close()
     return render_template('user.html', producto = p)
-    
 
+@thelabApp.route('/sCarritos',methods =['POST','GET'])
+def sProducto():
+    selcarritos=db.connection.cursor()
+    selcarritos.execute("SELECT * FROM carritos")
+    c=selcarritos.fetchall()
+    selcarritos.close()
+    return render_template('carritos.html', carritos = c)
 
 if  __name__ =='__main__':
     thelabApp.config.from_object(config['development'])
