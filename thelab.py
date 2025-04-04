@@ -1,4 +1,4 @@
-from flask import Flask, render_template,url_for,request,redirect,flash
+from flask import Flask, render_template,url_for,request,redirect,flash,session
 from flask_mysqldb import MySQL
 from config import config 
 from models.ModelUser import ModelUser
@@ -34,6 +34,12 @@ def signin():
                     selProducto.execute("SELECT * FROM producto LIMIT 20")
                     p=selProducto.fetchall()
                     selProducto.close()
+                    selCarrito =db.connection.cursor()
+                    selCarrito.execute ("SELECT * FROM carrito WHERE usuario_id = %s AND status = 'T' ", (usuarioAutenticado.id,))
+                    c = selCarrito.fetchall()
+                    selCarrito.fetchall()
+                    session['carritos'] = c 
+                    selCarrito.close()
                     return render_template('user.html', producto = p)
             else:
                 flash('clave incorrecta')
@@ -128,6 +134,8 @@ def sProducto():
     c=selcarritos.fetchall()
     selcarritos.close()
     return render_template('carritos.html', carritos = c)
+
+
 
 if  __name__ =='__main__':
     thelabApp.config.from_object(config['development'])
