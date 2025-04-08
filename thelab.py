@@ -135,6 +135,19 @@ def sProducto():
     selcarritos.close()
     return render_template('carritos.html', carritos = c)
 
+@thelabApp.route('/icarrito',methods=['POST ','GET'])
+def icarrito():
+    cantidad = request.form['id']
+    selproductos=db.connection.cursor()
+    selproductos.execute("SELECT * FROM producto INNER JOIN carritos ON producto.id = carritos.id WHERE producto.id = %s",(id,))
+    p=selproductos.fetchone()
+    importe = p[3] * cantidad 
+
+    inscarrito = db.connection.cursor()
+    inscarrito.execute("INSERT INTO carrito (id,precio) VALUES (%s, %s)")
+
+
+
 
 
 if  __name__ =='__main__':
