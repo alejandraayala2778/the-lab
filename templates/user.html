@@ -54,8 +54,11 @@
               <h5 class="card-title">{{p[1]}}</h5>
               <p class="card-text">{{p[2]}}</p>
               <p class="card-text">Precio: ${{p[4]}}</p>
-              <a href="/iCarritos{{p[0]}}/{{p[4]}}">agregar al carrito </a>
-              <i class="fa-solid fa-cart-plus"></i>
+
+              <form action="/carritos"></form>
+              <input class="form-control" type="number"name="cantidad"> 
+              <input type="hidden" name="{{p[0]}}"> 
+              <button type="submit"></a><i class="fa-solid fa-cart-plus"></i></button>
             </div>
             
       </div>
