@@ -27,6 +27,8 @@ def signin():
         if usuarioAutenticado is not None:
             if usuarioAutenticado.clave:
                 login_user(usuarioAutenticado)
+                session['id'] = usuarioAutenticado.id
+                session['nombre'] = usuarioAutenticado.nombre
                 if usuarioAutenticado.perfil == 'A':
                     return render_template('admin.html')
                 else:
@@ -71,6 +73,23 @@ def signout():
     logout_user()
     return redirect(url_for('home'))
 
+@thelabApp.route('/home-admin',methods=['POST','GET'])
+def homeUser():
+    selProducto=db.connection.cursor()
+    selProducto.execute("SELECT * FROM producto LIMIT 20")
+    p=selProducto.fetchall()
+    selProducto.close()
+    selCarrito =db.connection.cursor()
+    selCarrito.execute ("SELECT * FROM carrito WHERE usuario_id = %s AND status = 'T' ", (session['id'],))
+    c = selCarrito.fetchall()
+    selCarrito.fetchall()
+    session['carritos'] = c 
+    selCarrito.close()
+    return render_template('admin.html')
+
+@thelabApp.route('/home-user',methods=['POST','GET'])
+def homeAdmin():
+    return render_template('user.html')
 
 @thelabApp.route('/sUsuario',methods=['POST','GET'])
 def sUsuario():
@@ -142,7 +161,6 @@ def icarrito():
     selproductos.execute("SELECT * FROM producto INNER JOIN carritos ON producto.id = carritos.id WHERE producto.id = %s",(id,))
     p=selproductos.fetchone()
     importe = p[3] * cantidad 
-
     inscarrito = db.connection.cursor()
     inscarrito.execute("INSERT INTO carrito (id,precio) VALUES (%s, %s)")
 
