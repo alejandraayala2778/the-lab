@@ -149,23 +149,21 @@ def sProducto():
 @thelabApp.route('/sCarritos',methods =['POST','GET'])
 def sProducto():
     selcarritos=db.connection.cursor()
-    selcarritos.execute("SELECT * FROM carritos")
+    selcarritos.execute("SELECT * FROM carritos INNER JOIN producto ON carrito.pedido_id = pedidos")
     c=selcarritos.fetchall()
     selcarritos.close()
     return render_template('carritos.html', carritos = c)
 
-@thelabApp.route('/icarrito',methods=['POST ','GET'])
-def icarrito():
-    cantidad = request.form['id']
-    selproductos=db.connection.cursor()
-    selproductos.execute("SELECT * FROM producto INNER JOIN carritos ON producto.id = carritos.id WHERE producto.id = %s",(id,))
-    p=selproductos.fetchone()
-    importe = p[3] * cantidad 
+@thelabApp.route('/icarritos/<int:pedido_id,id>/<float:precio>',methods=['POST ','GET'])
+def icarrito(id,precio):
+    usuario_id = session['id']
+    fecha = datetime.now()
     inscarrito = db.connection.cursor()
-    inscarrito.execute("INSERT INTO carrito (id,precio) VALUES (%s, %s)")
-
-
-
+    inscarrito.execute("INSERT INTO carritos (id,pedido_id,productos_id,cantidades,precio) VALUES (%s,%s,%s,%s,%s)"(usuario_id,pedidos))
+    db.connection.commit()
+    regcarrito.close()
+    flash('Usuario registrado')
+    return redirect(url_for('sCarrito'))
 
 
 if  __name__ =='__main__':
