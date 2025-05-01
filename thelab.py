@@ -159,9 +159,9 @@ def icarrito(id,precio):
     usuario_id = session['id']
     fecha = datetime.now()
     inscarrito = db.connection.cursor()
-    inscarrito.execute("INSERT INTO carritos (id,pedido_id,productos_id,cantidades,precio) VALUES (%s,%s,%s,%s,%s)"(usuario_id,pedidos))
+    inscarrito.execute("INSERT INTO carritos (id,pedido_id,productos_id,cantidades,precio) VALUES (%s,%s,%s,%s,%s)"(usuario_id,))
     db.connection.commit()
-    regcarrito.close()
+    inscarrito.close()
     flash('Usuario registrado')
     return redirect(url_for('sCarrito'))
 
