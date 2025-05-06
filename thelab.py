@@ -157,13 +157,26 @@ def sProducto():
 @thelabApp.route('/icarritos/<int:pedido_id,id>/<float:precio>',methods=['POST ','GET'])
 def icarrito(id,precio):
     usuario_id = session['id']
+    cantidad = ['cantidad'] + 1
+    importe = precio * cantidad
     fecha = datetime.now()
     inscarrito = db.connection.cursor()
     inscarrito.execute("INSERT INTO carritos (id,pedido_id,productos_id,cantidades,precio) VALUES (%s,%s,%s,%s,%s)"(usuario_id,))
     db.connection.commit()
+    session['carrito=']+= 1
     inscarrito.close()
     flash('Usuario registrado')
     return redirect(url_for('sCarrito'))
+
+@thelabApp.route('/dcarrito/<int:id>',methods = ['POST','GET'])
+def dcarrito(id):
+    delcarrito = db.connection.cursor()
+    delcarrito.execute("DELETE FROM carritos WHERE id = %s",(id,))
+    db.connection.commit()
+    delcarrito.close()
+    flash('Carrito eliminado')
+    return redirect(url_for('sCarrito'))
+
 
 
 if  __name__ =='__main__':
