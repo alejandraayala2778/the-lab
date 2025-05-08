@@ -168,13 +168,14 @@ def icarrito(id,precio):
     flash('Usuario registrado')
     return redirect(url_for('sCarrito'))
 
-@thelabApp.route('/dcarrito/<int:id>',methods = ['POST','GET'])
-def dcarrito(id):
+@thelabApp.route('/dcarrito/<int:id>/<int>:cantidad>',methods = ['POST','GET'])
+def dcarrito(id,cantidad):
     delcarrito = db.connection.cursor()
     delcarrito.execute("DELETE FROM carritos WHERE id = %s",(id,))
     db.connection.commit()
     delcarrito.close()
     flash('Carrito eliminado')
+    session ['carrito']-= cantidad
     return redirect(url_for('sCarrito'))
 
 
