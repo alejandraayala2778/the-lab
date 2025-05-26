@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-05-2025 a las 01:25:21
+-- Tiempo de generación: 26-05-2025 a las 02:46:09
 -- Versión del servidor: 8.0.41
 -- Versión de PHP: 7.4.9
 
@@ -184,7 +184,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=192;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- AUTO_INCREMENT de la tabla `catalogos`
@@ -208,7 +208,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
