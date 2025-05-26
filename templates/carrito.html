@@ -1,0 +1,212 @@
+{% extends 'layout.html' %}
+{% block titulo %} THELAB - Carrito {% endblock %}
+{% block contenido %}
+
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top" style="background-color: #1e1e2f;">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    
+
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+  
+        <a class="navbar-brand mx-auto letra1 fw-bold text-white letra2" href="/home-user" style="position: absolute; left: 50%; transform: translateX(-50%);" >THELAB</a>
+
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white" aria-current="page" href="/home-user"><i class="fa-solid fa-house"></i></a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white">{{ current_user.nombre }}</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/sCarrito" aria-label="Cart">
+            <button class="btn btn-outline-light">
+              <i class="fa-solid fa-cart-shopping fa-shake"></i>
+              <span id="contador-carrito">{{ session['carrito'] }}</span>
+            </button>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+
+  <div class="row container">
+    <div class="col-lg-8">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% if carrito %}
+          {% for item in carrito %}
+            {% set precio = item[10]|float %}
+            {% set cantidad = item[4]|int %}
+            {% set importe = item[5]|float %}
+            <div class="col">
+              <div class="card">
+                <img src="/static/img/{{ item[12] }}" alt="{{ item[8] }}" class="card-img-top">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item[8] }}</h5>
+                  <p class="card-text">{{ item[9] }}</p>
+                  <p class="card-text">Precio: ${{ "%.2f"|format(precio) }}</p>
+                  
+                  <p class="card-text">
+                    Cantidad:
+                    <input type="number" value="{{ cantidad }}" readonly style="width: 60px; text-align: center;">
+
+                  </p>
+                  <div class="d-flex flex-column align-items-center">
+
+                    <a href="{{ url_for('incrementarCarrito', car_id=item[0], precio=precio) }}" class="btn btn-sm " style="color: #329603;">
+                      <i class="fa-solid fa-plus"></i>
+                    </a>
+
+                    <a href="{{ url_for('decrementarCarrito', car_id=item[0], precio=precio) }}" class="btn btn-sm  mx-2" style="color: red;">
+                      <i class="fa-solid fa-minus"></i>
+                    </a>
+
+
+                  </div>
+                  <p class="card-text">Importe: ${{ "%.2f"|format(importe) }}</p>
+                  
+                  <a href="{{ url_for('dCarrito', car_id=item[0]) }}" class="btn btn-danger">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="col">No hay productos en el carrito</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <p><a href="/home-user" class="btn btn-outline-dark btn-lg">Seguir comprando</a></p>
+      <p class="d-inline-flex gap-1">
+        <a class="btn btn-primary btn-lg btn-block" data-bs-toggle="collapse" href="#collapseExample">
+          Realizar compra
+        </a>
+      </p>
+
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          <h5 class="mb-3">Ingresa los datos de tu tarjeta</h5>
+
+          <div class="mb-3">
+            <label class="form-label">Selecciona método de pago:</label>
+            <div class="d-flex justify-content-around">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="metodoPago" id="oxxo" value="Oxxo" required>
+                <label class="form-check-label" for="oxxo">
+                  <i class="fa-solid fa-store"></i> Oxxo
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="metodoPago" id="mastercard" value="MasterCard">
+                <label class="form-check-label" for="mastercard">
+                  <i class="fab fa-cc-mastercard text-danger"></i> MasterCard
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="metodoPago" id="visa" value="Visa">
+                <label class="form-check-label" for="visa">
+                  <i class="fab fa-cc-visa text-primary"></i> Visa
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <form id="formPago">
+            <div class="mb-3">
+              <label for="cardNumber" class="form-label">Número de tarjeta</label>
+              <input type="text" class="form-control" id="cardNumber" placeholder="4444-4444-4444-4444" pattern="\d{4}-\d{4}-\d{4}-\d{4}" maxlength="19" required>
+              <div class="form-text text-danger">Debe tener 16 dígitos</div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="cardName" class="form-label">Nombre en la tarjeta</label>
+                <input type="text" class="form-control" id="cardName" placeholder="Juan Pérez" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="expiryDate" class="form-label">Expira</label>
+                <input type="text" class="form-control" id="expiryDate" placeholder="MM/AA" pattern="\d{2}/\d{2}" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="cvv" class="form-label">CVV</label>
+                <input type="password" class="form-control" id="cvv" placeholder="•••" pattern="\d{3}" maxlength="3" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Pagar</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4">
+        <h2 class="text-end">Total general: ${{ "%.2f"|format(total) }}</h2>
+      </div>
+    </div>
+  </div>
+
+<script>
+document.getElementById('formPago').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    fetch('/procesar_pago', {
+        method: 'POST',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/home-user'; // Redirigir después de pago exitoso
+        } else {
+            alert('Error al procesar el pago: ' + (data.error || ''));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById('cardNumber').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '').substring(0,16);
+    let formatted = value.match(/.{1,4}/g);
+    e.target.value = formatted ? formatted.join('-') : '';
+});
+
+document.getElementById('expiryDate').addEventListener('input', function (e) {
+    let value = e.target.value.replace(/\D/g, '').substring(0, 4);
+    if (value.length >= 3) {
+        e.target.value = value.substring(0, 2) + '/' + value.substring(2);
+    } else {
+        e.target.value = value;
+    }
+});
+</script>
+
+{% endblock %}

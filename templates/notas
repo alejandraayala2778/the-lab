@@ -1,0 +1,127 @@
+  // para las imagenes que muestren
+   
+   <div class="nueva-seccion-cartas">
+  <h2>¿QUE GRAN ESTILO LLEVARAS HOY?</h2> 
+ 
+<div class="spacer"></div>
+
+<section class="section fade-section" id="fadeSection1">
+  <img src="{{ url_for('static', filename='img/carru7.jpg') }}" alt="Moda 1">
+  <div class="text">
+    <h2>¿BUSCAS UN ESTILO MAS SERIO? </h2>
+    <p>ESTO SIN DUDA ES PARA TI</p>
+    <a onclick="toggleForm('form-overlay')" type="button" class="btn btn-primary btn-sm">VER MÁS</a>
+  </div>
+</section>
+
+<section class="section fade-section" id="fadeSection2">
+  <img src="{{ url_for('static', filename='img/fash.jpg') }}" alt="Moda 2">
+  <div class="text">
+    <h2>¿BUSCANDO ESTILOS QUE BRILLEN IGUAL QUE TU?  </h2>
+    <p>ESTO SIN DUDA ES TUYO</p>
+    <a onclick="toggleForm('form-overlay')" type="button" class="btn btn-primary btn-sm">VER MÁS</a>
+  </div>
+</section>
+
+<section class="section fade-section" id="fadeSection2">
+  <img src="{{ url_for('static', filename='img/carta.jpg') }}" alt="Moda 2">
+  <div class="text">
+    <h2>¿SIENTES QUE TE FALTA ALGO EN ESE OUTFIT?  </h2>
+    <p>ESTO SIN DUDA QUITARIA ESA FALTA</p>
+    <a onclick="toggleForm('form-overlay')" type="button" class="btn btn-primary btn-sm">VER MÁS</a>
+  </div>
+</section>
+
+<div class="spacer"></div>
+</div>
+
+  <style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Espaciador superior para dejar espacio debajo del navbar */
+.spacer {
+  height: 100px; /* ajusta esto a la altura real de tu navbar */
+}
+
+/* Cada sección ocupa toda la pantalla */
+.section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: calc(100vh - 100px); /* le restamos la altura del navbar */
+  padding: 40px;
+  background-color: #d6d2c8;
+  gap: 40px;
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Imagen alineada a la izquierda */
+.section img {
+  max-width: 40%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+/* Texto a la derecha */
+.section .text {
+  flex: 1;
+  font-family: Arial, sans-serif;
+}
+
+.section .text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.section .text p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.section .text a {
+  color: #000;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* Animación fade in al hacer scroll */
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  </style>
+
+  
+  <script>
+ function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.bottom >= 0
+  );
+}
+
+function checkFade() {
+  const sections = document.querySelectorAll(".fade-section");
+  sections.forEach(section => {
+    if (isInViewport(section)) {
+      section.classList.add("visible");
+    } else {
+      section.classList.remove("visible");
+    }
+  });
+}
+
+window.addEventListener("scroll", checkFade);
+window.addEventListener("load", checkFade);
+
+  </script>

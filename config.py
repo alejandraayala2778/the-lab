@@ -1,13 +1,13 @@
 class Config:
-    SECRET_KEY  = 'SDHFXKTGHJL.,AEHSRHRSDJTDgvjbkgk202bjlkwfhddjhfk'
+    SECRET_KEY  = 'fasfdfafasfadfaskibidisigmapogmichambasmegmaboyfornitehittlerasdadasdavvasadasbdasdadgsdfga'
     DEBUG       = True
 
-class DevelopmentConfig(Config):
+class DevelomentConfig(Config):
     MYSQL_HOST      = 'localhost'
     MYSQL_USER      = 'root'
     MYSQL_PASSWORD  = 'mysql'
     MYSQL_DB        = 'thelab'
 
 config = {
-    'development': DevelopmentConfig
+    'development': DevelomentConfig
 }

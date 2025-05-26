@@ -1,51 +1,81 @@
 {% extends 'layout.html' %}
-{% block titulo %}tu estilo tus reglas {% endblock %}
-{% block contenido %}
+{% block titulo %} TU VIDA TU ESTILO {% endblock %}
+{% block contenido  %}
+<nav class="navbar navbar-expand-lg sticky-top shadow-sm" style="background-color: #1e1e2f;">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/"> the-lab</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/"><i class="fa-solid fa-house"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/signup">registrate</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/signin">iniciar sesion</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
+
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent3" aria-controls="navbarSupportedContent3" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+        <a class="navbar-brand mx-auto letra1 fw-bold text-white letra2" href="/home-user" style="position: absolute; left: 50%; transform: translateX(-50%);" >THELAB</a>
+
+
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent3">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/"><i class="fa-solid fa-house"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled text-white-50" aria-disabled="true">Disabled</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light mx-1" href="/signup">
+            <i class="fa-solid fa-user-plus me-1"></i>Regístrate
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light mx-1" href="/signin">
+            <i class="fa-solid fa-right-to-bracket me-1"></i>Iniciar Sesión
+          </a>
+        </li>
+      </ul>
+
+      <!-- Buscador -->
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Buscar">
+        <button class="btn btn-outline-light" type="submit">Buscar</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+
+  <div class="nueva-seccion-cartas">
+    <div class="nueva-cartas-container">
+    {% for r1 in ropa1 %}
+      <div class="nueva-col">
+        <img class="nueva-producto-img" src="/static/img/{{r1[5]}}" alt="Imagen producto" onclick="openModal(this)">
+        
+        <div class="nueva-info-hover">
+          <p class="nueva-precio">{{r1[2]}}$ MXN</p>
+          <p class="nueva-descripcion">{{r1[3]}}</p>
         </div>
-      </nav>  
-</body>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/all.min.js"></script>
-</html>
+
+        <a  href="/signup" class="nueva-boton-carrito"><i class="fa-solid fa-plus"></i></a>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+
+
 {% endblock %}

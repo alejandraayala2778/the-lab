@@ -1,0 +1,236 @@
+  {% extends 'layout.html' %}
+{% block titulo %} ADMINISTRADOR {% endblock %}
+{% block contenido  %}
+<nav class="navbar navbar-expand-lg fixed-top shadow-sm" style="background-color: #1e1e2f;">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link active text-white" href="/home-admin">
+            <i class="fa-solid fa-house fa-bounce"></i>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">  
+            Operaciones
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/sUsuario">Usuarios</a></li>
+            <li><a class="dropdown-item" href="#">Otra opción</a></li>
+            <li><hr class="dropdown-divider"></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white">{{ current_user.nombre }}</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/signout" title="Salir">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<style>
+  body {
+    padding-top: 65px;
+  }
+</style>
+
+
+
+
+  <div class="container">
+    {% with mensajes = get_flashed_messages() %}
+    {% if mensajes %}
+      {% for m in mensajes %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <div>
+            {{ m }}
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">NOMBRE</th>
+          <th scope="col">PRECIO</th>
+          <th scope="col">DESCRIPCION</th>
+          <th scope="col">CATALOGO_ID</th>
+          <th scope="col">NOMBRE_IMAGEN</th>
+          <th scope="col" colspan="2">
+            
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#insertar">
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+          </th>
+        </tr>
+
+<!-- Modal registrar  -->
+<div class="modal fade" id="insertar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content glass-modal">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Producto</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form action="/IUsuario" method="post">
+        <div class="modal-body">
+
+          <div class="form-group mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control shadow-sm" id="nombre" name="nombre" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="apellido" class="form-label">PRECIO</label>
+            <input type="text" class="form-control shadow-sm" id="apellido" name="apellido" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="telefono" class="form-label">DESCRIPCION</label>
+            <input type="tel" class="form-control shadow-sm" id="telefono" name="telefono" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="correo" class="form-label">CATALOGO_ID</label>
+            <input type="email" class="form-control shadow-sm" id="correo" name="correo" required>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="clave" class="form-label">NOMBRE_IMAGEN</label>
+            <input type="password" class="form-control shadow-sm" id="clave" name="clave" required>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-dark">Agregar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+      </thead>
+      <tbody>
+        {%  for p in productos %}
+        <tr>
+          <th scope="row">{{p[0]}}</th>
+          <td>{{p[1]}}</td>
+          <td>{{p[2]}}</td>
+          <td>{{p[3]}}</td>
+          <td>{{p[5]}}</td>
+          <td>{{p[6]}}</td>
+          <td>{{p[7]}}</td>
+          <td> <img src="/static/img/{{p[5]}}" alt="" width="320"></td>
+          <td>
+            <!-- boton editar -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar{{p[0]}}">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </td>
+          <td>
+            <!-- Button  eliminar -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#eliminar{{p[0]}}">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            
+          </td>
+        </tr>
+        <!-- Modal editar -->
+<div class="modal fade" id="editar{{p[0]}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">  
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/uUsuario/{{p[0]}}" method="post">
+      <div class="modal-body">
+          <h2>REGISTER</h2>
+          <div class="input-container">
+            <input style="color: rgb(0, 0, 0);" type="text" id="nombre" name="nombre" value="{{p[1]}}" required>
+            <label style="color:rgb(0, 0, 0);" for="nombre">NAME</label>
+          </div>
+          <div class="input-container">
+            <input style="color: rgb(0, 0, 0);" type="text" id="apellido" name="apellido" value="{{p[2]}}" required>
+            <label style="color:rgb(0, 0, 0);" for="apellido" >LASTNAME</label>
+          </div>
+          <div class="input-container">
+            <input style="color: rgb(0, 0, 0);" type="tel" id="telefono" name="telefono" value="{{p[5]}}" required>
+            <label style="color:rgb(0, 0, 0);" for="telefono"  >TELEPHONE</label>
+          </div>
+          <div class="input-container">
+            <input style="color: rgb(0, 0, 0);" type="correo" id="correo" name="correo" value="{{p[3]}}" required>
+            <label style="color:rgb(0, 0, 0);" for="correo" >EMAIL</label>
+          </div>
+          <div class="input-container">
+            <select name="perfil">
+              <option value="{{p[7]}}">{{p[7]}}</option>
+              <option value="A">Administrador</option>
+              <option value="C">Cliente</option>
+            </select>
+            <label style="color:rgb(0, 0, 0);" for="clave">PERFIL</label>
+          </div>
+        
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+      </div>
+    
+        </form>
+  </div>
+</div>
+</div>
+
+<!-- button eliminar -->
+
+<!-- Modal eliminar -->
+<div class="modal fade" id="eliminar{{p[0]}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/dUsuario/{{p[0]}}" method="post">
+      <div class="modal-body">
+        <p>¿seguro que desea eliminar el usuario {{p[1]}}? <i class="fa-solid fa-skull-crossbones fa-beat-fade fa-2xl" style="color: #ff0000;"></i></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cancelar</button>
+        <button type="submit" style="background-color: #000000;" class="btn btn-danger">eliminar</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  
+{% endblock %}

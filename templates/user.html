@@ -1,67 +1,178 @@
 {% extends 'layout.html' %}
-{% block titulo %}usasario {% endblock %}
-{% block contenido %}
+{% block titulo %} THELAB - TU TIENDA DE MODA {% endblock %}
+{% block contenido  %}
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="/"> the-lab</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/"><i class="fa-solid fa-house"></i></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" >{{current_user.nombre}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/signout"><i class="fa-solid fa-right-from-bracket"></i></a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top" style="background-color: #1e1e2f;">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    
+    <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <a class="navbar-brand mx-auto letra1 fw-bold text-white letra2" href="/home-user" style="position: absolute; left: 50%; transform: translateX(-50%);" >THELAB</a>
+
+
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/home-user"><i class="fa-solid fa-house"></i></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white">{{ current_user.nombre }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/sCarrito" aria-label="Cart">
+            <button class="btn btn-outline-light">
+              <i class="fa-solid fa-cart-shopping fa-shake"></i>
+              <span id="contador-carrito">{{ session['carrito'] }}</span>
+            </button>
+          </a>
+        </li>
+      </ul>
+
+ 
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-light" id="btn-buscar" aria-label="Buscar">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <div class="search-box me-3 ms-2">
+          <input type="text" id="input-busqueda" class="form-control me-2" placeholder="Buscar...">
         </div>
-      </nav>  
-      <div class="row row-cols-1 row-cols-md-3 g-4">
-        {{% for p in producto %}}
-        <div class="col">
-
-          <div class="card h-100">
-            <img src="/static/img/{{p[5]}}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{p[1]}}</h5>
-              <p class="card-text">{{p[2]}}</p>
-              <p class="card-text">Precio: ${{p[4]}}</p>
-<a href="/iCarrito/{{c[0]}}/{{c[4]}}" class="btn btn-success">agregar a carrito</a>
-    <i class="fa-solid fa-cart-shopping" style="color: #63E6BE;"></i>
-
-            </div>
-            
+        <a class="nav-link text-white" href="/signout" aria-label="Sign out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
       </div>
-</body>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/all.min.js"></script>
-</html>
+
+    </div>
+  </div>
+</nav>
+
+
+<div class="modal fade" id="modalBusqueda" tabindex="-1" aria-labelledby="modalBusquedaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalBusquedaLabel">Resultados de la búsqueda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="contenedor-resultados"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="nueva-seccion-cartas">
+  <div class="nueva-seccion-cartas">
+    <div class="nueva-cartas-container">
+      {% for producto in ropa1 %}
+        <div class="nueva-col">
+          <img class="nueva-producto-img" src="/static/img/{{producto[5]}}" alt="Imagen producto" onclick="openModal(this)">
+          
+          <div class="nueva-info-hover">
+            <p class="nueva-precio">{{producto[2]}}$ MXN</p>
+            <p class="nueva-descripcion">{{producto[3]}}</p>
+          </div>
+
+          <button onclick="agregarAlCarrito({{producto[0]}}, '{{producto[2]}}')" class="nueva-boton-carrito">
+            <i class="fa-solid fa-cart-shopping fa-shake"></i>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+function agregarAlCarrito(producto_id, precio) {
+    fetch(`/iCarrito/${producto_id}/${precio}`, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.ok) {
+            // Actualizar el contador del carrito
+            document.getElementById('contador-carrito').textContent = data.carrito;
+            
+            // Mostrar notificación
+            const toast = new bootstrap.Toast(document.getElementById('toastAgregado'));
+            toast.show();
+        } else {
+            alert('Error al agregar al carrito: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Función para buscar productos
+document.getElementById('btn-buscar').addEventListener('click', function() {
+    const query = document.getElementById('input-busqueda').value.trim();
+    if(query.length > 0) {
+        fetch(`/buscar?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const contenedor = document.getElementById('contenedor-resultados');
+                contenedor.innerHTML = '';
+                
+                if(data.length > 0) {
+                    data.forEach(producto => {
+                        contenedor.innerHTML += `
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="/static/img/${producto.imagen}" class="card-img-top" alt="${producto.nombre}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${producto.nombre}</h5>
+                                        <p class="card-text">${producto.descripcion}</p>
+                                        <p class="card-text">$${producto.precio.toFixed(2)}</p>
+                                        <button onclick="agregarAlCarrito(${producto.id}, '${producto.precio}')" class="btn btn-primary">
+                                            <i class="fa-solid fa-cart-plus"></i> Agregar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    contenedor.innerHTML = '<p class="text-center">No se encontraron resultados</p>';
+                }
+                
+                const modal = new bootstrap.Modal(document.getElementById('modalBusqueda'));
+                modal.show();
+            });
+    }
+});
+</script>
+
+
+{% with mensajes = get_flashed_messages(category_filter=['carrito']) %}
+  {% if mensajes %}
+    {% for m in mensajes %}
+      <div class="alert alert-warning alert-dismissible fade show animate__animated animate__bounceIn" role="alert">
+        <i class="fa-solid fa-cart-shopping me-2"></i> {{ m }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
 {% endblock %}
