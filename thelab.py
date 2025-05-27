@@ -35,7 +35,7 @@ def home():
     selropa2.close()
 
     return render_template('home.html', ropa1=p, ropa2=p2)  # <--- Cambiado a p
-
+# <--- skibidi
 @thelabApp.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'POST':
